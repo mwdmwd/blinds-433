@@ -129,7 +129,7 @@ int main(void)
 #if USE_2X
 	UCSR0A |= (1 << U2X0);
 #else
-	UCSRA &= ~(1 << U2X0);
+	UCSR0A &= ~(1 << U2X0);
 #endif
 
 	/* Configure serial port for 8N1, receive-only with receive completed intr. */
