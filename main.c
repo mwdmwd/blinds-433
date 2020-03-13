@@ -15,6 +15,13 @@
 #define BLINDS_BIT (1 << 1)
 #define BLINDS_SYMBOL_TIME 400 /* uS */
 
+#define BLINDS_PREABMLE_ON_TIME (BLINDS_SYMBOL_TIME * 12)
+#define BLINDS_PREABMLE_OFF_TIME (BLINDS_SYMBOL_TIME * 4)
+
+#define BLINDS_BIT0_ON_TIME BLINDS_SYMBOL_TIME
+#define BLINDS_BIT0_OFF_TIME (BLINDS_SYMBOL_TIME * 2)
+#define BLINDS_BIT1_ON_TIME (BLINDS_SYMBOL_TIME * 2)
+#define BLINDS_BIT1_OFF_TIME BLINDS_SYMBOL_TIME
 #define BLINDS_TRANSMIT_ON         \
 	do                             \
 	{                              \
@@ -35,10 +42,10 @@ void blinds_init(void)
 void blinds_send_preamble(void)
 {
 	BLINDS_TRANSMIT_ON;
-	_delay_us(BLINDS_SYMBOL_TIME * 12);
+	_delay_us(BLINDS_PREABMLE_ON_TIME);
 
 	BLINDS_TRANSMIT_OFF;
-	_delay_us(BLINDS_SYMBOL_TIME * 4);
+	_delay_us(BLINDS_PREABMLE_OFF_TIME);
 }
 
 void blinds_send_bit(_Bool bit)
@@ -46,15 +53,15 @@ void blinds_send_bit(_Bool bit)
 	BLINDS_TRANSMIT_ON;
 	if(bit)
 	{
-		_delay_us(BLINDS_SYMBOL_TIME * 2);
+		_delay_us(BLINDS_BIT1_ON_TIME);
 		BLINDS_TRANSMIT_OFF;
-		_delay_us(BLINDS_SYMBOL_TIME);
+		_delay_us(BLINDS_BIT1_OFF_TIME);
 	}
 	else
 	{
-		_delay_us(BLINDS_SYMBOL_TIME);
+		_delay_us(BLINDS_BIT0_ON_TIME);
 		BLINDS_TRANSMIT_OFF;
-		_delay_us(BLINDS_SYMBOL_TIME * 2);
+		_delay_us(BLINDS_BIT0_OFF_TIME);
 	}
 }
 
