@@ -12,7 +12,7 @@
 #define BLINDS_TRANSMISSION_REPEATS 5
 #define BLINDS_DDR DDRB
 #define BLINDS_PORT PORTB
-#define BLINDS_BIT (1 << 0)
+#define BLINDS_BIT (1 << 1)
 #define BLINDS_SYMBOL_TIME 400 /* uS */
 
 #define BLINDS_TRANSMIT_ON         \
