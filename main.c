@@ -22,6 +22,13 @@
 #define BLINDS_BIT0_OFF_TIME (BLINDS_SYMBOL_TIME * 2)
 #define BLINDS_BIT1_ON_TIME (BLINDS_SYMBOL_TIME * 2)
 #define BLINDS_BIT1_OFF_TIME BLINDS_SYMBOL_TIME
+
+#define BLINDS_US_PER_TIMER_TICK 4
+#define BLINDS_GRACE_TICKS 40
+#define BLINDS_US_TO_TICKS(t) ((int)((float)t / BLINDS_US_PER_TIMER_TICK) - BLINDS_GRACE_TICKS)
+
+#define BLINDS_PACKET_RX_BITS 40
+
 #define BLINDS_TRANSMIT_ON               \
 	do                                   \
 	{                                    \
@@ -37,6 +44,11 @@ void blinds_init(void)
 {
 	BLINDS_TRANSMIT_OFF;
 	BLINDS_TX_DDR |= BLINDS_TX_BIT;
+
+	/* Configure Timer1 for input capture and enable the interrupt */
+	TCCR1B |= (1 << ICES1) | (1 << ICNC1); /* Rising edge, noise canceler */
+	TCCR1B |= (1 << CS11) | (1 << CS10);   /* /64 prescaler, 1 tick = 4 uS */
+	TIMSK1 |= (1 << ICIE1) | (1 << TOIE1); /* Enable input capture and overflow intrs. */
 }
 
 void blinds_send_preamble(void)
@@ -129,6 +141,53 @@ ISR(USART_RX_vect)
 	requestedCommand = UDR0;
 }
 
+volatile _Bool inPacket;
+volatile uint8_t bitBuffer[8];
+volatile uint8_t bitNr;
+
+ISR(TIMER1_CAPT_vect)
+{
+	_Bool wasRising = (TCCR1B & (1 << ICES1));
+	uint16_t highTime;
+
+	if(wasRising)
+	{
+		TCNT1 = 0; /* Reset timer, we'll read it on the next falling edge */
+	}
+	else if((highTime = TCNT1) > BLINDS_US_TO_TICKS(BLINDS_PREABMLE_ON_TIME) && bitNr < BLINDS_PACKET_RX_BITS)
+	{
+		inPacket = true; /* A preamble was just received, prepare for data */
+		bitNr = 0;
+	}
+	else if(inPacket)
+	{
+		if(highTime > BLINDS_US_TO_TICKS(BLINDS_BIT1_ON_TIME))
+		{
+			bitBuffer[bitNr / 8] |= (1 << (7 - bitNr % 8));
+		}
+		else
+		{
+			bitBuffer[bitNr / 8] &= ~(1 << (7 - bitNr % 8));
+		}
+
+		if(++bitNr >= BLINDS_PACKET_RX_BITS)
+		{
+			inPacket = false; /* Finished reading packet */
+		}
+	}
+
+	TCCR1B ^= (1 << ICES1); /* Select opposite edge */
+}
+
+ISR(TIMER1_OVF_vect)
+{
+	if(bitNr < BLINDS_PACKET_RX_BITS) /* Don't let a fully-read packet get destroyed */
+	{
+		inPacket = false;
+		bitNr = 0;
+	}
+}
+
 int main(void)
 {
 	UBRR0H = UBRRH_VALUE;
@@ -170,6 +229,17 @@ int main(void)
 
 			blinds_send_command(address, command);
 			requestedCommand = 0;
+		}
+
+		if(bitNr == BLINDS_PACKET_RX_BITS) /* A new command has been received over the air */
+		{
+			if(!memcmp((uint8_t *)bitBuffer, blinds_packet_header_bytes, sizeof(blinds_packet_header_bytes)))
+			{
+				/* TODO: also compare the final nibble? */
+				/* TODO: handle packet */
+			}
+
+			bitNr = 0; /* Allow the ISR to read a new packet */
 		}
 	}
 
