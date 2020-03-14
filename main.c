@@ -13,7 +13,7 @@
 /* Serial protocol: one-byte
  * ccaaaaaa
  * 76543210
- * c - command (01 -> open, 10 -> close, 11 -> stop)
+ * c - action (01 -> open, 10 -> close, 11 -> stop)
  * a - address, 0 for broadcast
  */
 
@@ -48,22 +48,22 @@ int main(void)
 		if(requestedCommand) /* A new transmission request has arrived over UART */
 		{
 			uint8_t address = requestedCommand & 0x3f;
-			uint8_t command = (requestedCommand & 0xc0) >> 6;
+			uint8_t action = (requestedCommand & 0xc0) >> 6;
 
-			switch(command)
+			switch(action)
 			{
 				case 1:
-					command = BLINDS_UP;
+					action = BLINDS_UP;
 					break;
 				case 2:
-					command = BLINDS_DOWN;
+					action = BLINDS_DOWN;
 					break;
 				default:
-					command = BLINDS_STOP;
+					action = BLINDS_STOP;
 					break;
 			}
 
-			blinds_send_command(address, command);
+			blinds_send_command(address, action);
 			requestedCommand = 0;
 		}
 

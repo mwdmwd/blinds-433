@@ -8,7 +8,7 @@
 uint8_t const blinds_packet_header_bytes[] = {0x3e, 0x35, 0x6e};
 uint8_t const blinds_packet_header_final_nibble = 0xa;
 
-uint8_t const blinds_command_values[] = {
+uint8_t const blinds_action_values[] = {
     0x11, /* Up */
     0x55, /* Stop */
     0x33  /* Down */
@@ -19,6 +19,40 @@ static void blinds_send_bit(_Bool bit);
 static void blinds_send_nibble(uint8_t nibble);
 static void blinds_send_byte(uint8_t byte);
 static void blinds_send_header(void);
+
+void blinds_init(void)
+{
+	BLINDS_TRANSMIT_OFF;
+	BLINDS_TX_DDR |= BLINDS_TX_BIT;
+
+	/* Configure Timer1 for input capture and enable the interrupt */
+	TCCR1B |= (1 << ICES1) | (1 << ICNC1); /* Rising edge, noise canceler */
+	TCCR1B |= (1 << CS11) | (1 << CS10);   /* /64 prescaler, 1 tick = 4 uS */
+	TIMSK1 |= (1 << ICIE1) | (1 << TOIE1); /* Enable input capture and overflow intrs. */
+}
+
+void blinds_send_command(uint8_t address, blinds_action_t command)
+{
+	for(uint8_t i = 0; i < BLINDS_TRANSMISSION_REPEATS; ++i)
+	{
+		blinds_send_preamble();
+		blinds_send_header();
+		blinds_send_nibble(address);
+		blinds_send_byte(blinds_action_values[command]);
+	}
+}
+
+_Bool blinds_is_valid_header(uint8_t const *header)
+{
+	if(!memcmp(header, blinds_packet_header_bytes, sizeof(blinds_packet_header_bytes)))
+	{
+		return (header[sizeof(blinds_packet_header_bytes)] & 0xf0) >> 4 == blinds_packet_header_final_nibble;
+	}
+	else
+	{
+		return false;
+	}
+}
 
 volatile _Bool inPacket;
 volatile uint8_t bitBuffer[BLINDS_PACKET_RX_BITS / 8];
@@ -64,40 +98,6 @@ ISR(TIMER1_OVF_vect)
 	{
 		inPacket = false;
 		bitNr = 0;
-	}
-}
-
-void blinds_init(void)
-{
-	BLINDS_TRANSMIT_OFF;
-	BLINDS_TX_DDR |= BLINDS_TX_BIT;
-
-	/* Configure Timer1 for input capture and enable the interrupt */
-	TCCR1B |= (1 << ICES1) | (1 << ICNC1); /* Rising edge, noise canceler */
-	TCCR1B |= (1 << CS11) | (1 << CS10);   /* /64 prescaler, 1 tick = 4 uS */
-	TIMSK1 |= (1 << ICIE1) | (1 << TOIE1); /* Enable input capture and overflow intrs. */
-}
-
-void blinds_send_command(uint8_t address, blinds_command_t command)
-{
-	for(uint8_t i = 0; i < BLINDS_TRANSMISSION_REPEATS; ++i)
-	{
-		blinds_send_preamble();
-		blinds_send_header();
-		blinds_send_nibble(address);
-		blinds_send_byte(blinds_command_values[command]);
-	}
-}
-
-_Bool blinds_is_valid_header(uint8_t const *header)
-{
-	if(!memcmp(header, blinds_packet_header_bytes, sizeof(blinds_packet_header_bytes)))
-	{
-		return (header[sizeof(blinds_packet_header_bytes)] & 0xf0) >> 4 == blinds_packet_header_final_nibble;
-	}
-	else
-	{
-		return false;
 	}
 }
 
