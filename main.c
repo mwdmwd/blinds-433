@@ -10,9 +10,9 @@
 #include <util/setbaud.h>
 
 #define BLINDS_TRANSMISSION_REPEATS 5
-#define BLINDS_DDR DDRB
-#define BLINDS_PORT PORTB
-#define BLINDS_BIT (1 << 1)
+#define BLINDS_TX_DDR DDRB
+#define BLINDS_TX_PORT PORTB
+#define BLINDS_TX_BIT (1 << 1)
 #define BLINDS_SYMBOL_TIME 400 /* uS */
 
 #define BLINDS_PREABMLE_ON_TIME (BLINDS_SYMBOL_TIME * 12)
@@ -22,21 +22,21 @@
 #define BLINDS_BIT0_OFF_TIME (BLINDS_SYMBOL_TIME * 2)
 #define BLINDS_BIT1_ON_TIME (BLINDS_SYMBOL_TIME * 2)
 #define BLINDS_BIT1_OFF_TIME BLINDS_SYMBOL_TIME
-#define BLINDS_TRANSMIT_ON         \
-	do                             \
-	{                              \
-		BLINDS_PORT |= BLINDS_BIT; \
+#define BLINDS_TRANSMIT_ON               \
+	do                                   \
+	{                                    \
+		BLINDS_TX_PORT |= BLINDS_TX_BIT; \
 	} while(0)
-#define BLINDS_TRANSMIT_OFF         \
-	do                              \
-	{                               \
-		BLINDS_PORT &= ~BLINDS_BIT; \
+#define BLINDS_TRANSMIT_OFF               \
+	do                                    \
+	{                                     \
+		BLINDS_TX_PORT &= ~BLINDS_TX_BIT; \
 	} while(0)
 
 void blinds_init(void)
 {
 	BLINDS_TRANSMIT_OFF;
-	BLINDS_DDR |= BLINDS_BIT;
+	BLINDS_TX_DDR |= BLINDS_TX_BIT;
 }
 
 void blinds_send_preamble(void)
