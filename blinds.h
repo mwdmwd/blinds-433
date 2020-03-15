@@ -23,8 +23,8 @@ typedef enum
 	BLINDS_INVALID_ACTION
 } blinds_action_t;
 
-extern volatile uint8_t bitBuffer[BLINDS_PACKET_RX_BITS / 8];
-extern volatile uint8_t bitNr;
+extern volatile uint8_t bitBuffer[BLINDS_PACKET_RX_BITS / 8]; /* The packet is placed here */
+extern volatile uint8_t bitNr;                                /* A full packet is ready when this == BLINDS_PACKET_RX_BITS */
 
 void blinds_init(void);
 void blinds_send_command(uint8_t address, blinds_action_t command);

@@ -5,8 +5,8 @@
 
 #include "blinds.h"
 
-uint8_t const blinds_packet_header_bytes[] = {0x3e, 0x35, 0x6e};
-uint8_t const blinds_packet_header_final_nibble = 0xa;
+uint8_t const blinds_packet_header_bytes[] = {0x3e, 0x35, 0x6e}; /* This is probably device-unique */
+uint8_t const blinds_packet_header_final_nibble = 0xa;           /* ditto */
 
 uint8_t const blinds_action_values[] = {
     0x11, /* Up */
@@ -14,8 +14,8 @@ uint8_t const blinds_action_values[] = {
     0x33  /* Down */
 };
 
-volatile uint8_t bitNr;                                /* A full packet is ready when this == BLINDS_PACKET_RX_BITS */
-volatile uint8_t bitBuffer[BLINDS_PACKET_RX_BITS / 8]; /* The packet is placed here */
+volatile uint8_t bitNr;
+volatile uint8_t bitBuffer[BLINDS_PACKET_RX_BITS / 8];
 volatile _Bool inPacket;
 
 static void blinds_send_preamble(void);
