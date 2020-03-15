@@ -104,7 +104,7 @@ ISR(TIMER1_CAPT_vect)
 	{
 		TCNT1 = 0; /* Reset timer, we'll read it on the next falling edge */
 	}
-	else if((highTime = TCNT1) > BLINDS_US_TO_TICKS(BLINDS_PREABMLE_ON_TIME) && bitNr < BLINDS_PACKET_RX_BITS)
+	else if((highTime = TCNT1) > BLINDS_US_TO_TICKS(BLINDS_PREAMBLE_ON_TIME) && bitNr < BLINDS_PACKET_RX_BITS)
 	{
 		inPacket = true; /* A preamble was just received, prepare for data */
 		bitNr = 0;
@@ -141,10 +141,10 @@ ISR(TIMER1_OVF_vect)
 static void blinds_send_preamble(void)
 {
 	BLINDS_TRANSMIT_ON;
-	_delay_us(BLINDS_PREABMLE_ON_TIME);
+	_delay_us(BLINDS_PREAMBLE_ON_TIME);
 
 	BLINDS_TRANSMIT_OFF;
-	_delay_us(BLINDS_PREABMLE_OFF_TIME);
+	_delay_us(BLINDS_PREAMBLE_OFF_TIME);
 }
 
 static void blinds_send_bit(_Bool bit)

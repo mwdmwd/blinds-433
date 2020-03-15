@@ -36,8 +36,8 @@ _Bool blinds_is_valid_header(uint8_t const *header);
 blinds_action_t blinds_get_action_from_packet(uint8_t const *packet);
 uint8_t blinds_get_address_from_packet(uint8_t const *packet);
 
-#define BLINDS_PREABMLE_ON_TIME (BLINDS_SYMBOL_TIME * 12)
-#define BLINDS_PREABMLE_OFF_TIME (BLINDS_SYMBOL_TIME * 4)
+#define BLINDS_PREAMBLE_ON_TIME (BLINDS_SYMBOL_TIME * 12)
+#define BLINDS_PREAMBLE_OFF_TIME (BLINDS_SYMBOL_TIME * 4)
 
 #define BLINDS_BIT0_ON_TIME BLINDS_SYMBOL_TIME
 #define BLINDS_BIT0_OFF_TIME (BLINDS_SYMBOL_TIME * 2)
