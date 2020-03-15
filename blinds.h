@@ -19,7 +19,8 @@ typedef enum
 {
 	BLINDS_UP,
 	BLINDS_STOP,
-	BLINDS_DOWN
+	BLINDS_DOWN,
+	BLINDS_INVALID_ACTION
 } blinds_action_t;
 
 extern volatile uint8_t bitBuffer[BLINDS_PACKET_RX_BITS / 8];
@@ -27,7 +28,13 @@ extern volatile uint8_t bitNr;
 
 void blinds_init(void);
 void blinds_send_command(uint8_t address, blinds_action_t command);
+
+void blinds_rx_enable(void);
+void blinds_rx_disable(void);
+
 _Bool blinds_is_valid_header(uint8_t const *header);
+blinds_action_t blinds_get_action_from_packet(uint8_t const *packet);
+uint8_t blinds_get_address_from_packet(uint8_t const *packet);
 
 #define BLINDS_PREABMLE_ON_TIME (BLINDS_SYMBOL_TIME * 12)
 #define BLINDS_PREABMLE_OFF_TIME (BLINDS_SYMBOL_TIME * 4)

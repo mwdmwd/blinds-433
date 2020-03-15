@@ -14,6 +14,10 @@ uint8_t const blinds_action_values[] = {
     0x33  /* Down */
 };
 
+volatile uint8_t bitNr;                                /* A full packet is ready when this == BLINDS_PACKET_RX_BITS */
+volatile uint8_t bitBuffer[BLINDS_PACKET_RX_BITS / 8]; /* The packet is placed here */
+volatile _Bool inPacket;
+
 static void blinds_send_preamble(void);
 static void blinds_send_bit(_Bool bit);
 static void blinds_send_nibble(uint8_t nibble);
@@ -28,7 +32,9 @@ void blinds_init(void)
 	/* Configure Timer1 for input capture and enable the interrupt */
 	TCCR1B |= (1 << ICES1) | (1 << ICNC1); /* Rising edge, noise canceler */
 	TCCR1B |= (1 << CS11) | (1 << CS10);   /* /64 prescaler, 1 tick = 4 uS */
-	TIMSK1 |= (1 << ICIE1) | (1 << TOIE1); /* Enable input capture and overflow intrs. */
+	TIMSK1 |= (1 << ICIE1) | (1 << TOIE1); /* Enable overflow intr. */
+
+	blinds_rx_enable();
 }
 
 void blinds_send_command(uint8_t address, blinds_action_t command)
@@ -40,6 +46,20 @@ void blinds_send_command(uint8_t address, blinds_action_t command)
 		blinds_send_nibble(address);
 		blinds_send_byte(blinds_action_values[command]);
 	}
+}
+
+void blinds_rx_enable(void)
+{
+	bitNr = 0;
+	inPacket = false;
+
+	TIFR1 |= (1 << ICF1);   /* Clear interrupt flag (needed?) */
+	TIMSK1 |= (1 << ICIE1); /* Enable input capture interrupt */
+}
+
+void blinds_rx_disable(void)
+{
+	TIMSK1 &= ~(1 << ICIE1); /* Disable input capture interrupt */
 }
 
 _Bool blinds_is_valid_header(uint8_t const *header)
@@ -54,9 +74,26 @@ _Bool blinds_is_valid_header(uint8_t const *header)
 	}
 }
 
-volatile _Bool inPacket;
-volatile uint8_t bitBuffer[BLINDS_PACKET_RX_BITS / 8];
-volatile uint8_t bitNr;
+blinds_action_t blinds_get_action_from_packet(uint8_t const *packet)
+{
+	uint8_t actionValue = packet[sizeof(blinds_packet_header_bytes) + 1];
+	switch(actionValue)
+	{
+		case 0x11:
+			return BLINDS_UP;
+		case 0x55:
+			return BLINDS_STOP;
+		case 0x33:
+			return BLINDS_DOWN;
+		default:
+			return BLINDS_INVALID_ACTION;
+	}
+}
+
+uint8_t blinds_get_address_from_packet(uint8_t const *packet)
+{
+	return packet[sizeof(blinds_packet_header_bytes)] & 0x0f;
+}
 
 ISR(TIMER1_CAPT_vect)
 {
