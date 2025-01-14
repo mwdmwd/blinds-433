@@ -31,46 +31,76 @@
     <num_sending_repeats>0</num_sending_repeats>
     <sample_rate>2000000.0</sample_rate>
   </simulator_tx_conf>
-  <signal name="7_d" filename="7_d.complex16s" samples_per_symbol="400" center="0.031" center_spacing="1" tolerance="5" noise_threshold="1.009756247814293" noise_minimum="-1.2112164062289745" noise_maximum="0.21121640622897453" modulation_type="ASK" sample_rate="1000000.0" pause_threshold="8" message_length_divisor="1" bits_per_symbol="1">
+  <signal name="7_d" filename="7_d.complex16s" samples_per_symbol="400" center="0.031" center_spacing="1" tolerance="5" noise_threshold="1.009756247814293" noise_minimum="-1.2112164062289745" noise_maximum="0.21121640622897453" modulation_type="ASK" sample_rate="1000000.0" pause_threshold="8" message_length_divisor="1" bits_per_symbol="1" costas_loop_bandwidth="0.1">
     <messages/>
   </signal>
   <open_file name="7_d.complex16s" position="0"/>
-  <signal name="9_s" filename="9_s.complex16s" samples_per_symbol="400" center="0.0325" center_spacing="1" tolerance="5" noise_threshold="1.0" noise_minimum="-1.2043446453225375" noise_maximum="0.2043446453225375" modulation_type="ASK" sample_rate="1000000.0" pause_threshold="8" message_length_divisor="1" bits_per_symbol="1">
+  <signal name="9_s" filename="9_s.complex16s" samples_per_symbol="400" center="0.0325" center_spacing="1" tolerance="5" noise_threshold="1.0" noise_minimum="-1.2043446453225375" noise_maximum="0.2043446453225375" modulation_type="ASK" sample_rate="1000000.0" pause_threshold="8" message_length_divisor="1" bits_per_symbol="1" costas_loop_bandwidth="0.1">
     <messages/>
   </signal>
   <open_file name="9_s.complex16s" position="1"/>
-  <signal name="0_d" filename="0_d.complex16s" samples_per_symbol="400" center="0.0418" center_spacing="1" tolerance="5" noise_threshold="1.009756247814293" noise_minimum="-1.2112164062289745" noise_maximum="0.21121640622897453" modulation_type="ASK" sample_rate="1000000.0" pause_threshold="8" message_length_divisor="1" bits_per_symbol="1">
+  <signal name="0_d" filename="0_d.complex16s" samples_per_symbol="400" center="0.0418" center_spacing="1" tolerance="5" noise_threshold="1.009756247814293" noise_minimum="-1.2112164062289745" noise_maximum="0.21121640622897453" modulation_type="ASK" sample_rate="1000000.0" pause_threshold="8" message_length_divisor="1" bits_per_symbol="1" costas_loop_bandwidth="0.1">
     <messages/>
   </signal>
   <open_file name="0_d.complex16s" position="2"/>
-  <signal name="gen_7_d" filename="gen_7_d.wav" samples_per_symbol="400" center="0.3236" center_spacing="1" tolerance="5" noise_threshold="0.0001414213562373095" noise_minimum="-9.999999999999999e-05" noise_maximum="9.999999999999999e-05" modulation_type="ASK" sample_rate="44100" pause_threshold="8" message_length_divisor="1" bits_per_symbol="1">
+  <signal name="gen_7_d" filename="gen_7_d.wav" samples_per_symbol="400" center="0.3236" center_spacing="1" tolerance="5" noise_threshold="0.0001414213562373095" noise_minimum="-9.999999999999999e-05" noise_maximum="9.999999999999999e-05" modulation_type="ASK" sample_rate="44100" pause_threshold="8" message_length_divisor="1" bits_per_symbol="1" costas_loop_bandwidth="0.1">
     <messages/>
   </signal>
   <open_file name="gen_7_d.wav" position="3"/>
-  <signal name="9_d" filename="9_d.complex16s" samples_per_symbol="400" center="0.024658364534843713" center_spacing="1" tolerance="3" noise_threshold="1.009756247814293" noise_minimum="-1.2112164062289745" noise_maximum="0.21121640622897453" modulation_type="ASK" sample_rate="1000000.0" pause_threshold="8" message_length_divisor="1" bits_per_symbol="1">
+  <signal name="9_d" filename="9_d.complex16s" samples_per_symbol="400" center="0.024658364534843713" center_spacing="1" tolerance="3" noise_threshold="1.009756247814293" noise_minimum="-1.2112164062289745" noise_maximum="0.21121640622897453" modulation_type="ASK" sample_rate="1000000.0" pause_threshold="8" message_length_divisor="1" bits_per_symbol="1" costas_loop_bandwidth="0.1">
     <messages/>
   </signal>
   <open_file name="9_d.complex16s" position="4"/>
-  <signal name="m_9_d" filename="m_9_d.complex16s" samples_per_symbol="400" center="0.2747" center_spacing="1" tolerance="5" noise_threshold="31.12213006656196" noise_minimum="-22.420705663414466" noise_maximum="21.420705663414466" modulation_type="ASK" sample_rate="1000000.0" pause_threshold="6" message_length_divisor="1" bits_per_symbol="1">
+  <signal name="m_9_d" filename="m_9_d.complex16s" samples_per_symbol="400" center="0.2747" center_spacing="1" tolerance="5" noise_threshold="31.12213006656196" noise_minimum="-22.420705663414466" noise_maximum="21.420705663414466" modulation_type="ASK" sample_rate="1000000.0" pause_threshold="6" message_length_divisor="1" bits_per_symbol="1" costas_loop_bandwidth="0.1">
     <messages/>
   </signal>
   <open_file name="m_9_d.complex16s" position="5"/>
-  <signal name="m_8_u" filename="m_8_u.complex16s" samples_per_symbol="400" center="0.04102214577142149" center_spacing="1" tolerance="3" noise_threshold="3.011237381874767" noise_minimum="-2.620948925718549" noise_maximum="1.6209489257185492" modulation_type="ASK" sample_rate="1000000.0" pause_threshold="4" message_length_divisor="1" bits_per_symbol="1">
+  <signal name="m_8_u" filename="m_8_u.complex16s" samples_per_symbol="400" center="0.04102214577142149" center_spacing="1" tolerance="3" noise_threshold="3.011237381874767" noise_minimum="-2.620948925718549" noise_maximum="1.6209489257185492" modulation_type="ASK" sample_rate="1000000.0" pause_threshold="4" message_length_divisor="1" bits_per_symbol="1" costas_loop_bandwidth="0.1">
     <messages/>
   </signal>
   <open_file name="m_8_u.complex16s" position="6"/>
+  <signal name="1_d" filename="1_d.complex16s" samples_per_symbol="400" center="0.04625325556844473" center_spacing="1" tolerance="2" noise_threshold="1.0" noise_minimum="-1.2043446453225375" noise_maximum="0.2043446453225375" modulation_type="ASK" sample_rate="2000000.0" pause_threshold="8" message_length_divisor="1" bits_per_symbol="1" costas_loop_bandwidth="0.1">
+    <messages/>
+  </signal>
+  <open_file name="1_d.complex16s" position="7"/>
+  <signal name="7_s" filename="7_s.complex16s" samples_per_symbol="400" center="0.06649563554674387" center_spacing="1" tolerance="3" noise_threshold="1.0" noise_minimum="-1.2043446453225375" noise_maximum="0.2043446453225375" modulation_type="ASK" sample_rate="2000000.0" pause_threshold="8" message_length_divisor="1" bits_per_symbol="1" costas_loop_bandwidth="0.1">
+    <messages/>
+  </signal>
+  <open_file name="7_s.complex16s" position="8"/>
+  <signal name="7_u" filename="7_u.complex16s" samples_per_symbol="400" center="0.024944023083662614" center_spacing="1" tolerance="12" noise_threshold="0.5611599415496439" noise_minimum="-0.8952499999999999" noise_maximum="-0.10475000000000018" modulation_type="ASK" sample_rate="2000000.0" pause_threshold="8" message_length_divisor="1" bits_per_symbol="1" costas_loop_bandwidth="0.1">
+    <messages/>
+  </signal>
+  <open_file name="7_u.complex16s" position="9"/>
+  <signal name="8_d" filename="8_d.complex16s" samples_per_symbol="400" center="0.04978702450171113" center_spacing="1" tolerance="7" noise_threshold="1.4843585550668017" noise_minimum="-1.5455000000000008" noise_maximum="0.5455000000000008" modulation_type="ASK" sample_rate="2000000.0" pause_threshold="8" message_length_divisor="1" bits_per_symbol="1" costas_loop_bandwidth="0.1">
+    <messages/>
+  </signal>
+  <open_file name="8_d.complex16s" position="10"/>
+  <signal name="8_s" filename="8_s.complex16s" samples_per_symbol="400" center="0.04370240913704038" center_spacing="1" tolerance="3" noise_threshold="0" noise_minimum="0" noise_maximum="0" modulation_type="ASK" sample_rate="2000000.0" pause_threshold="8" message_length_divisor="1" bits_per_symbol="1" costas_loop_bandwidth="0.1">
+    <messages/>
+  </signal>
+  <open_file name="8_s.complex16s" position="11"/>
+  <signal name="8_u" filename="8_u.complex16s" samples_per_symbol="400" center="0.033143943874165416" center_spacing="1" tolerance="3" noise_threshold="0" noise_minimum="0" noise_maximum="0" modulation_type="ASK" sample_rate="2000000.0" pause_threshold="8" message_length_divisor="1" bits_per_symbol="1" costas_loop_bandwidth="0.1">
+    <messages/>
+  </signal>
+  <open_file name="8_u.complex16s" position="12"/>
   <group name="Down" id="0">
     <cf_protocol filename="7_d.complex16s"/>
     <cf_protocol filename="gen_7_d.wav"/>
     <cf_protocol filename="0_d.complex16s"/>
     <cf_protocol filename="9_d.complex16s"/>
     <cf_protocol filename="m_9_d.complex16s"/>
+    <cf_protocol filename="1_d.complex16s"/>
+    <cf_protocol filename="8_d.complex16s"/>
   </group>
   <group name="Stop" id="1">
     <cf_protocol filename="9_s.complex16s"/>
+    <cf_protocol filename="7_s.complex16s"/>
+    <cf_protocol filename="8_s.complex16s"/>
   </group>
   <group name="Up" id="2">
     <cf_protocol filename="m_8_u.complex16s"/>
+    <cf_protocol filename="8_u.complex16s"/>
+    <cf_protocol filename="7_u.complex16s"/>
   </group>
   <protocol>
     <decodings>
@@ -88,8 +118,14 @@
       <message message_type_id="4f60d87b-bbb9-4e2a-8d8d-b14e82bf953f" modulator_index="0" pause="4466" timestamp="1582066451.882238" decoding_index="5"/>
       <message message_type_id="4f60d87b-bbb9-4e2a-8d8d-b14e82bf953f" modulator_index="0" pause="2637" timestamp="1582293291.7947843" decoding_index="5"/>
       <message message_type_id="4f60d87b-bbb9-4e2a-8d8d-b14e82bf953f" modulator_index="0" pause="4218" timestamp="1582293426.4219656" decoding_index="5"/>
+      <message message_type_id="4f60d87b-bbb9-4e2a-8d8d-b14e82bf953f" modulator_index="0" pause="4433" timestamp="0.002759" decoding_index="5"/>
+      <message message_type_id="4f60d87b-bbb9-4e2a-8d8d-b14e82bf953f" modulator_index="0" pause="4087" timestamp="0.001404" decoding_index="5"/>
       <message message_type_id="4f60d87b-bbb9-4e2a-8d8d-b14e82bf953f" modulator_index="0" pause="4368" timestamp="1582049031.9049244" decoding_index="5"/>
+      <message message_type_id="4f60d87b-bbb9-4e2a-8d8d-b14e82bf953f" modulator_index="0" pause="5661" timestamp="0.0024375" decoding_index="5"/>
+      <message message_type_id="4f60d87b-bbb9-4e2a-8d8d-b14e82bf953f" modulator_index="0" pause="5121" timestamp="0.0019825" decoding_index="5"/>
       <message message_type_id="4f60d87b-bbb9-4e2a-8d8d-b14e82bf953f" modulator_index="0" pause="220" timestamp="1582501880.2958777" decoding_index="5"/>
+      <message message_type_id="4f60d87b-bbb9-4e2a-8d8d-b14e82bf953f" modulator_index="0" pause="4237" timestamp="0.0020835" decoding_index="5"/>
+      <message message_type_id="4f60d87b-bbb9-4e2a-8d8d-b14e82bf953f" modulator_index="0" pause="3752" timestamp="0.001455" decoding_index="5"/>
     </messages>
     <message_types>
       <message_type name="Default" id="4f60d87b-bbb9-4e2a-8d8d-b14e82bf953f" assigned_by_ruleset="0" assigned_by_logic_analyzer="0">
